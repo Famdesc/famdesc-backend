@@ -11,31 +11,7 @@ class EnvironmentVariables {
     APP_VERSION: string;
 
     @IsString()
-    DATABASE_HOST: string;
-
-    @IsNumber()
-    DATABASE_PORT: number;
-
-    @IsString()
-    DATABASE_USERNAME: string;
-
-    @IsString()
-    DATABASE_PASSWORD: string;
-
-    @IsString()
-    DATABASE_NAME: string;
-
-    @IsString()
-    DATABASE_ENTITIES: string;
-
-    @IsString()
-    DATABASE_MIGRATIONS: string;
-
-    @IsString()
-    DATABASE_ENTITIES_DIR: string;
-
-    @IsString()
-    DATABASE_MIGRATIONS_DIR: string;
+    POSTGRES_URL: string;
 }
 
 export function validate(config: Record<string, unknown>) {
