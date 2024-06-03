@@ -16,7 +16,6 @@ export default () => {
             name: process.env.npm_package_name,
             version: process.env.npm_package_version,
         },
-        baseUrl: process.env.BASE_URL,
         database: {
             type: 'postgres',
             host: process.env.DATABASE_HOST,

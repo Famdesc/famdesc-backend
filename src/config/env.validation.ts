@@ -36,9 +36,6 @@ class EnvironmentVariables {
 
     @IsString()
     DATABASE_MIGRATIONS_DIR: string;
-
-    @IsString()
-    BASE_URL: string;
 }
 
 export function validate(config: Record<string, unknown>) {
