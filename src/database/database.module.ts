@@ -12,7 +12,7 @@ import { ConfigService } from '../config/config.service';
             imports: [ConfigModule],
             useFactory: async (configService: ConfigService) => ({
                 ...configService.get('database'),
-                // autoLoadEntities: true,
+                synchronize: true,
                 entities: getMetadataArgsStorage().tables.map(tbl => tbl.target)
             }),
             inject: [ConfigService],

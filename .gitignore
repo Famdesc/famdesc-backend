@@ -1,5 +1,5 @@
 .env
-
+.env.development.local
 # compiled output
 /dist
 /node_modules
@@ -21,6 +21,7 @@ lerna-debug.log*
 /.nyc_output
 
 # IDEs and editors
+/.vscode
 /.idea
 .project
 .classpath
