@@ -1,21 +1,29 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
-import { CreateUserCommmand } from "src/core/domain/user/commands/create/create-user.command";
-import { PrismaService } from "src/core/services/prisma/prisma.service";
-import { UserService } from "src/core/services/user/user.service";
+import { Body, Controller, Get, Inject, Post } from "@nestjs/common";
+import { CoreApiResponse } from "src/core/common/api/core-api.response";
+import { UserDITokens } from "src/core/domain/user/di/user-di.tokens";
+import { CreateUserUseCase } from "src/core/domain/user/use-case/create-user.usecase";
+import { UserUseCaseDto } from "src/core/domain/user/use-case/dto/user-usecase.dto";
+import { CreateUserAdapter } from "src/infrastructure/adapter/usecase/user/create-user.adapter";
 
 @Controller('user')
 export class UserController {
     constructor(
-        private readonly usersService: UserService,
-        private readonly prisma: PrismaService
-    ){}
+        @Inject(UserDITokens.CreateUserUseCase)
+        private readonly createUserUseCase: CreateUserUseCase,
+      ) {}
+
     @Post()
-    async create(@Body() data:any) {
-            return await this.usersService.create(
-                new CreateUserCommmand(data.id, data.email, data.password)
-            )
-    }
-    @Get()
-    async findAll() {
+    public async createAccount(@Body() body: any) {
+
+        const adapter: CreateUserAdapter = await CreateUserAdapter.new({
+            firstname  : body.firstname,
+            lastname   : body.lastname,
+            email      : body.email,
+            password   : body.password
+        });
+
+        const createdUser: UserUseCaseDto = await this.createUserUseCase.execute(adapter);
+
+        return CoreApiResponse.success(createdUser)
     }
 }
