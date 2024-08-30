@@ -1,28 +1,32 @@
-import { Module } from "@nestjs/common";
-import { UserController } from "../api/controllers/user.controller";
-import { UserRepositoryPort } from "src/core/domain/user/ports/persistence/user-repository.port";
+import { Module, Provider } from "@nestjs/common";
+import { UserDITokens } from "src/core/domain/user/di/user-di.tokens";
+import { CreateUserService } from "src/core/services/user/usecase/create-user.service";
 import { OrmUserRepository } from "src/infrastructure/adapter/persistence/orm/repository/user/orm-user.repository";
-import { UserService } from "src/core/services/user/user.service";
-import { CreateUserCommandHandler } from "src/core/domain/user/commands/create/create-user.command-handler";
-import { UserCreatedEventHandler } from "src/core/domain/user/events-handler/user-created.event-handler";
+import { UserController } from "../api/controllers/user.controller";
 import { PrismaModule } from "./prisma.module";
 
+const persistenceProviders: Provider[] = [
+ {
+    provide : UserDITokens.UserRepository,
+    useClass: OrmUserRepository
+ }
+];
 
-
-
+const useCaseProviders: Provider[] = [
+ {
+    provide   : UserDITokens.CreateUserUseCase,
+    useFactory: userRepository => new CreateUserService(userRepository),
+    inject    : [UserDITokens.UserRepository]
+ }
+];
 
 @Module({
     imports: [PrismaModule],
-    exports: [],
+    exports  : [UserDITokens.UserRepository],
     providers: [
-    {
-        provide: UserRepositoryPort,
-        useClass: OrmUserRepository,
-    },
-    UserService,
-    CreateUserCommandHandler,
-    UserCreatedEventHandler
-],
+        ...persistenceProviders,
+        ...useCaseProviders,
+    ],
     controllers: [UserController],
 })
 export class UserModule {}
