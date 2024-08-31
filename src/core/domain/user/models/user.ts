@@ -3,6 +3,7 @@ import { BaseModel } from "src/core/common/model/base-model";
 import { Nullable } from "src/core/common/types/common.types";
 import { v4 } from 'uuid';
 import { CreateUserPayload } from "./type/create-user.payload";
+import { genSalt, hash } from "bcrypt";
 export class User extends BaseModel<string> {
     @IsString()
     private firstname: string;
@@ -73,11 +74,17 @@ export class User extends BaseModel<string> {
       return this.removedAt;
     }
 
-    
+    public async hashPassword(): Promise<void> {
+      const salt: string = await genSalt();
+      this.password = await hash(this.password, salt);
+      
+      await this.validate();
+    }
 
     
     public static async new(payload: CreateUserPayload): Promise<User> {
-      const user: User = new User(payload);;
+      const user: User = new User(payload);
+      await user.hashPassword();
       await user.validate();
       return user;
     }
