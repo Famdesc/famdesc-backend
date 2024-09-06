@@ -5,14 +5,13 @@ export class UserMapper {
     public static toPersistence(domainUser: User): Prisma.UserCreateInput {
         return {
         id        : domainUser.getId(),
-        firstname : domainUser.getFirstName(),
-        lastname  : domainUser.getLastName(),
+        username  : domainUser.getUserName(),
         email     : domainUser.getEmail(),
         password  : domainUser.getPassword(),
         
-        createdAt : domainUser.getCreatedAt(),
-        updatedAt : domainUser.getEditedAt() as Date,
-        removedAt : domainUser.getRemovedAt() as Date,
+        created_at : domainUser.getCreatedAt(),
+        updated_at : domainUser.getEditedAt() as Date,
+        removed_at : domainUser.getRemovedAt() as Date,
         }
     }
       public static toPersistenceUsers(domainUsers: User[]): Prisma.UserCreateInput[] {
@@ -21,14 +20,13 @@ export class UserMapper {
       
       public static toDomain(ormUser: ormUser): User {
         const domainUser: User = new User({
-          firstname : ormUser.firstname,
-          lastname  : ormUser.lastname,
+          username  : ormUser.username,
           email     : ormUser.email,
           password  : ormUser.password,
           id        : ormUser.id,
-          createdAt : ormUser.createdAt,
-          updatedAt : ormUser.updatedAt,
-          removedAt : ormUser.removedAt,
+          createdAt : ormUser.created_at,
+          updatedAt : ormUser.updated_at,
+          removedAt : ormUser.removed_at,
         });
         
         return domainUser;

@@ -22,9 +22,24 @@ model User {
   id        String   @id 
   email     String   @unique
   password  String
-  firstname String?
-  lastname  String?
-  createdAt DateTime @default(dbgenerated("('now'::text)::timestamp(6) with time zone")) @db.Timestamp(6)
-  updatedAt DateTime @updatedAt @db.Timestamp(6)
-  removedAt DateTime?
+  username  String
+  profile   Profile?
+  created_at DateTime @default(dbgenerated("('now'::text)::timestamp(6) with time zone")) @db.Timestamp(6)
+  updated_at DateTime @updatedAt @db.Timestamp(6)
+  removed_at DateTime?
 }
+
+model Profile {
+  id            String  @id
+  user          User    @relation(fields: [user_id], references: [id])
+  user_id       String  @unique
+  firstname     String?
+  lastname      String?
+  phone_number  Int?
+  address       String?
+  bio           String?
+  avatar_url    String?
+  cover_url     String?
+  created_at DateTime @default(dbgenerated("('now'::text)::timestamp(6) with time zone")) @db.Timestamp(6)
+  updated_at DateTime @updatedAt @db.Timestamp(6)
+} 
