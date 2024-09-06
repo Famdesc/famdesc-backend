@@ -6,11 +6,8 @@ import { CreateUserPayload } from "./type/create-user.payload";
 import { genSalt, hash } from "bcrypt";
 export class User extends BaseModel<string> {
     @IsString()
-    private firstname: string;
-    
-    @IsString()
-    private lastname: string;
-    
+    private username: string;
+
     @IsEmail()
     private readonly email: string;
     
@@ -18,40 +15,31 @@ export class User extends BaseModel<string> {
     private password: string;
     
     @IsDate()
-    private readonly createdAt: Date;
+    private readonly created_at: Date;
     
     @IsOptional()
     @IsDate()
-    private updatedAt: Nullable<Date>;
+    private updated_at: Nullable<Date>;
     
     @IsOptional()
     @IsDate()
-    private removedAt: Nullable<Date>;
+    private removed_at: Nullable<Date>;
     
     constructor(payload: CreateUserPayload) {
       super();
-    
-      this.firstname = payload.firstname;
-      this.lastname  = payload.lastname;
+      this.username  = payload.username
       this.email     = payload.email;
       this.password  = payload.password;
     
-      this.id        = payload.id || v4();;
-      this.createdAt = payload.createdAt || new Date();
-      this.updatedAt  = payload.updatedAt || new Date();
-      this.removedAt = payload.removedAt || null;
+      this.id         = payload.id || v4();;
+      this.created_at = payload.createdAt || new Date();
+      this.updated_at = payload.updatedAt || new Date();
+      this.removed_at = payload.removedAt || null;
     }
     
-    public getFirstName(): string {
-      return this.firstname;
-    }
     
-    public getLastName(): string {
-      return this.lastname;
-    }
-    
-    public getName(): string {
-      return `${this.firstname} ${this.lastname}`;
+    public getUserName(): string {
+      return this.username
     }
     
     public getEmail(): string {
@@ -63,15 +51,15 @@ export class User extends BaseModel<string> {
     }
     
     public getCreatedAt(): Date {
-      return this.createdAt;
+      return this.created_at
     }
     
     public getEditedAt(): Nullable<Date> {
-      return this.updatedAt;
+      return this.updated_at
     }
     
     public getRemovedAt(): Nullable<Date> {
-      return this.removedAt;
+      return this.removed_at;
     }
 
     public async hashPassword(): Promise<void> {

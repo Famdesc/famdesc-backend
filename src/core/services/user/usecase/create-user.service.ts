@@ -17,8 +17,7 @@ export class CreateUserService implements CreateUserUseCase {
         CoreAssert.isFalse(doesUserExist, Exception.new({code: Code.ENTITY_ALREADY_EXISTS_ERROR, overrideMessage: 'User already exists.'}))
         
         const user: User = await User.new({
-            firstname: payload.firstname,
-            lastname: payload.lastname,
+            username: payload.username,
             email: payload.email,
             password: payload.password
         })

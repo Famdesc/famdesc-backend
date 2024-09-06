@@ -6,9 +6,26 @@ Table User {
   id String [pk]
   email String [unique, not null]
   password String [not null]
+  username String [not null]
+  profile Profile
+  created_at DateTime [not null]
+  updated_at DateTime [not null]
+  removed_at DateTime
+}
+
+Table Profile {
+  id String [pk]
+  user User [not null]
+  user_id String [unique, not null]
   firstname String
   lastname String
-  createdAt DateTime [not null]
-  updatedAt DateTime [not null]
-  removedAt DateTime
+  phone_number Int
+  address String
+  bio String
+  avatar_url String
+  cover_url String
+  created_at DateTime [not null]
+  updated_at DateTime [not null]
 }
+
+Ref: Profile.user_id - User.id

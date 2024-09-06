@@ -7,13 +7,10 @@ import { CreateUserPort } from "src/core/domain/user/ports/usecase/create-user.p
 export class CreateUserAdapter extends UseCaseValidatableAdapter implements CreateUserPort {
     @Expose()
     @IsString()
-    public firstname: string;
+    public username: string;
     @Expose()
     @IsString()
     public password: string;
-    @Expose()
-    @IsString()
-    public lastname: string;
     @Expose()
     @IsEmail()
     public email: string;
