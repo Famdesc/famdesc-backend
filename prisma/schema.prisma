@@ -21,8 +21,9 @@ generator dbml {
 model User {
   id        String   @id 
   email     String   @unique
-  password  String
+  password  String?
   username  String
+  googleId  String?
   profile   Profile?
   created_at DateTime @default(dbgenerated("('now'::text)::timestamp(6) with time zone")) @db.Timestamp(6)
   updated_at DateTime @updatedAt @db.Timestamp(6)

@@ -32,4 +32,18 @@ export class OrmUserRepository implements UserRepositoryPort {
         }
         return domainUser
     }
+    public async findOneBy(args: Prisma.UserFindUniqueArgs, includeDeleted: boolean): Promise<Optional<User>> {
+        let domainUser: Optional<User>
+        const ormUser= await this.prisma.user.findFirst({
+            ...args,
+            where: {
+                ...args.where,
+                removed_at: includeDeleted ? undefined : null
+            }
+        })
+        if(ormUser) {
+            domainUser = UserMapper.toDomain(ormUser)
+        }
+        return domainUser
+    }
 }

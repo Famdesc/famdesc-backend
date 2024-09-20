@@ -5,8 +5,9 @@
 Table User {
   id String [pk]
   email String [unique, not null]
-  password String [not null]
+  password String
   username String [not null]
+  googleId String
   profile Profile
   created_at DateTime [not null]
   updated_at DateTime [not null]

@@ -4,16 +4,11 @@ import { User } from "../../models/user";
 
 @Exclude()
 export class UserUseCaseDto {
-
   @Expose()
   public id: string;
   
   @Expose()
-  public firstname: string;
-  
-  @Expose()
-  public lastname: string;
-  
+  public username: string;
   @Expose()
   public email: string;
 

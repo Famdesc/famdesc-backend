@@ -1,5 +1,6 @@
 export interface CreateUserPort {
     username: string;
     email: string;
-    password: string;
+    password?: string;
+    googleId?: string;
 }
